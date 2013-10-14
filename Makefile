@@ -18,14 +18,16 @@
 ##
 
 PREFIX		?= arm-none-eabi
-#PREFIX		?= arm-elf
-DESTDIR		?= /usr/local
+
+DESTDIR		?= $(shell dirname $(shell readlink -f $(shell which $(PREFIX)-gcc)))/..
+
 INCDIR		= $(DESTDIR)/$(PREFIX)/include
 LIBDIR		= $(DESTDIR)/$(PREFIX)/lib
-SHAREDIR        = $(DESTDIR)/$(PREFIX)/share/libopencm3/scripts
+SHAREDIR	= $(DESTDIR)/$(PREFIX)/share
 INSTALL		= install
 
-TARGETS = stm32 lpc13xx lm3s
+SRCLIBDIR = $(shell pwd)/lib
+TARGETS = stm32/l1
 
 # Be silent per default, but 'make V=1' will show all compiler calls.
 ifneq ($(V),1)
@@ -38,43 +40,46 @@ all: build
 
 build: lib examples
 
-lib:
-	$(Q)for i in $(addprefix $@/,$(TARGETS)); do \
-		if [ -d $$i ]; then \
-			printf "  BUILD   $$i\n"; \
-			$(MAKE) -C $$i || exit $?; \
-		fi; \
-	done
+LIB_DIRS:=$(wildcard $(addprefix lib/,$(TARGETS)))
+$(LIB_DIRS):
+	@printf "  BUILD   $@\n";
+	$(Q)$(MAKE) --directory=$@ SRCLIBDIR=$(SRCLIBDIR)
 
-examples:
-	$(Q)for i in $(addsuffix /*/*,$(addprefix $@/,$(TARGETS))); do \
-		if [ -d $$i ]; then \
-			printf "  BUILD   $$i\n"; \
-			$(MAKE) -C $$i || exit $?; \
-		fi; \
-	done
+lib: $(LIB_DIRS)
+	$(Q)true
 
-install: lib 
+EXAMPLE_DIRS:=$(sort $(dir $(wildcard $(addsuffix /*/*/Makefile,$(addprefix examples/,$(TARGETS))))))
+$(EXAMPLE_DIRS): lib
+	@printf "  BUILD   $@\n";
+	$(Q)$(MAKE) --directory=$@
+
+examples: $(EXAMPLE_DIRS)
+	$(Q)true
+
+install: lib
 	@printf "  INSTALL headers\n"
-	$(Q)$(INSTALL) -d $(INCDIR)/libopencm3
-	$(Q)$(INSTALL) -d $(LIBDIR)
-	$(Q)$(INSTALL) -d $(SHAREDIR)
-	$(Q)cp -r include/libopencm3/* $(INCDIR)/libopencm3
+	$(Q)$(INSTALL) -d $(INCDIR)/stm32
+	$(Q)cp -r include/stm32/* $(INCDIR)/stm32
+	$(Q)cp -r include/usb $(INCDIR)
+	$(Q)cp include/*.h $(INCDIR)
 	@printf "  INSTALL libs\n"
-	$(Q)$(INSTALL) -m 0644 lib/*/*.a $(LIBDIR)
+	$(Q)$(INSTALL) -d $(LIBDIR)/stm32/l1
+	$(Q)$(INSTALL) -m 0644 lib/stm32/l1/*.a $(LIBDIR)/stm32/l1
 	@printf "  INSTALL ldscripts\n"
-	$(Q)$(INSTALL) -m 0644 lib/*/*.ld $(LIBDIR)
+	$(Q)$(INSTALL) -m 0644 lib/stm32/l1/*.ld $(LIBDIR)/stm32/l1
+	$(Q)$(INSTALL) -m 0644 lib/*.specs $(LIBDIR)
 	@printf "  INSTALL scripts\n"
-	$(Q)$(INSTALL) -m 0644 scripts/* $(SHAREDIR)
+	$(Q)$(INSTALL) -d $(SHAREDIR)/libopencm3/scripts
+	$(Q)$(INSTALL) -m 0644 share/libopencm3/scripts/* $(SHAREDIR)/libopencm3/scripts
 
+# Bleh http://www.makelinux.net/make3/make3-CHP-6-SECT-1#make3-CHP-6-SECT-1
 clean:
-	$(Q)for i in $(addprefix lib/,$(TARGETS)) \
-		     $(addsuffix /*/*,$(addprefix examples/,$(TARGETS))); do \
+	$(Q)for i in $(LIB_DIRS) \
+		     $(EXAMPLE_DIRS); do \
 		if [ -d $$i ]; then \
 			printf "  CLEAN   $$i\n"; \
-			$(MAKE) -C $$i clean || exit $?; \
+			$(MAKE) -C $$i clean SRCLIBDIR=$(SRCLIBDIR) || exit $?; \
 		fi; \
 	done
 
-.PHONY: build lib examples install clean
-
+.PHONY: build lib $(LIB_DIRS) examples $(EXAMPLE_DIRS) install clean

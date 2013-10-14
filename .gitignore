@@ -1,10 +1,9 @@
 *.d
 *.o
+*.elf
 *.bin
 *.hex
 *.list
 *.srec
 *.a
-*.elf
-\#*
-.\#*
+*.map

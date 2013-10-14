@@ -1,0 +1,8 @@
+------------------------------------------------------------------------------
+README
+------------------------------------------------------------------------------
+
+This is small LED blinking example program using libopencm3.
+
+It's intended for the ST STM32L-DISCOVERY eval board. It should blink
+the blue LED and the green LED on the board.

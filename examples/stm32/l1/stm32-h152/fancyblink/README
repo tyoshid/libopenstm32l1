@@ -1,0 +1,10 @@
+------------------------------------------------------------------------------
+README
+------------------------------------------------------------------------------
+
+This is small LED blinking example program using libopencm3.
+
+It's intended for the ST STM32-based Olimex STM32-H152 eval board (see
+http://olimex.com/dev/stm32-h152.html for details). It should blink
+the red LED and the green LED on the board.
+

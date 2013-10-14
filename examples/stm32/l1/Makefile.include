@@ -1,0 +1,111 @@
+##
+## This file is part of the libopencm3 project.
+##
+## Copyright (C) 2009 Uwe Hermann <uwe@hermann-uwe.de>
+## Copyright (C) 2010 Piotr Esden-Tempski <piotr@esden.net>
+##
+## This program is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+
+PREFIX	?= arm-none-eabi
+
+CC		= $(PREFIX)-gcc
+LD		= $(PREFIX)-gcc
+OBJCOPY		= $(PREFIX)-objcopy
+OBJDUMP		= $(PREFIX)-objdump
+GDB		= $(PREFIX)-gdb
+SIZE		= $(PREFIX)-size
+
+TOOLCHAIN_DIR ?= $(shell dirname `which $(CC)`)/../$(PREFIX)
+
+ARCH_FLAGS      = -mthumb -mcpu=cortex-m3 -msoft-float
+CFLAGS		+= -Os -g \
+		   -Wall -Wextra -Wimplicit-function-declaration \
+		   -Wredundant-decls -Wmissing-prototypes -Wstrict-prototypes \
+		   -Wundef -Wshadow \
+		   -I$(TOOLCHAIN_DIR)/include/stm32/l1 \
+		   -I$(TOOLCHAIN_DIR)/include \
+		   -fno-common $(ARCH_FLAGS) -MD
+LDSCRIPT	?= $(BINARY).ld
+LDFLAGS		+= -L$(TOOLCHAIN_DIR)/lib/stm32/l1 \
+		   -T$(LDSCRIPT) -nostartfiles -Wl,--gc-sections \
+		   $(LDSPECS) \
+		   -Wl,-Map=$(BINARY).map -Wl,--cref \
+		   $(ARCH_FLAGS) -mfix-cortex-m3-ldrd 
+
+SCRIPT_DIR      = $(TOOLCHAIN_DIR)/share/libopencm3/scripts
+
+OBJS		+= $(BINARY).o
+
+OOCD		?= openocd
+# Black magic probe specific variables
+# Set the BMP_PORT to a serial port and then BMP is used for flashing
+BMP_PORT        ?=
+
+# Be silent per default, but 'make V=1' will show all compiler calls.
+ifneq ($(V),1)
+Q := @
+NULL := 2>/dev/null
+WROTE := 2>&1 | grep --color=never wrote
+endif
+
+all: $(BINARY).bin $(BINARY).hex $(BINARY).srec $(BINARY).list
+
+$(BINARY).bin: $(BINARY).elf
+	$(Q)$(OBJCOPY) -Obinary $< $@
+
+$(BINARY).hex: $(BINARY).elf
+	$(Q)$(OBJCOPY) -Oihex $< $@
+
+$(BINARY).srec: $(BINARY).elf
+	$(Q)$(OBJCOPY) -Osrec $< $@
+
+$(BINARY).list: $(BINARY).elf
+	$(Q)$(OBJDUMP) -d $< > $@
+	$(Q)$(OBJDUMP) -t $< >> $@
+
+$(BINARY).elf: $(OBJS) $(LDSCRIPT) $(TOOLCHAIN_DIR)/lib/stm32/l1/libstm32l1.a
+	$(Q)$(LD) -o $@ $(OBJS) -lstm32l1 $(LDFLAGS)
+	$(Q)$(SIZE) $(BINARY).elf
+
+%.o: %.c Makefile
+	$(Q)$(CC) $(CFLAGS) -o $@ -c $<
+
+clean:
+	$(Q)rm -f *.o
+	$(Q)rm -f *.d
+	$(Q)rm -f *.map
+	$(Q)rm -f *.elf
+	$(Q)rm -f *.bin
+	$(Q)rm -f *.hex
+	$(Q)rm -f *.srec
+	$(Q)rm -f *.list
+
+ifeq ($(BMP_PORT),)
+flash: $(BINARY).hex
+	$(Q)$(OOCD) -f "../openocd.cfg" \
+		    -c "init" -c "reset init" \
+		    -c "flash write_image erase $<" \
+		    -c "shutdown" $(WROTE)
+else
+flash: $(BINARY).elf
+	$(Q)$(GDB) --batch \
+		   -ex 'target extended-remote $(BMP_PORT)' \
+		   -x $(SCRIPT_DIR)/black_magic_probe_flash.scr \
+		   $<
+endif
+
+.PHONY: all clean flash
+
+-include $(OBJS:.o=.d)
