@@ -1,0 +1,32 @@
+------------------------------------------------------------------------------
+README
+------------------------------------------------------------------------------
+
+Suspend:
+
+It is possible to suspend USB device using sysfs.
+
+ # dmesg
+ ....
+ [ ...] usb 1-1.6.4: new full-speed USB device number 15 using ehci-pci
+ [ ...] usb 1-1.6.4: New USB device found, idVendor=2975, idProduct=0001
+ [ ...] usb 1-1.6.4: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+ [ ...] usb 1-1.6.4: Product: Custom Device
+ [ ...] usb 1-1.6.4: Manufacturer: MPC Research Ltd.
+ .... 
+ # cat /sys/bus/usb/devices/1-1.6.4/power/control
+ on
+ # cat /sys/bus/usb/devices/1-1.6.4/power/autosuspend_delay_ms
+ 2000
+ # echo auto > /sys/bus/usb/devices/1-1.6.4/power/control
+ # 
+
+
+Resume:
+
+The device is resumed by host access.
+The device should be resumed by pushing the button (WAKEUP) too.
+But it seems that rececnt linux kernel doesn't permit the device to send
+the resume request.
+I confirmed that the device was able to send the resume request on
+FreeBSD 9.1.

@@ -19,7 +19,6 @@
 
 LIBNAME		= libstm32l1
 
-SRCLIBDIR	?= $(realpath ../..)
 PREFIX		?= arm-none-eabi
 CC		= $(PREFIX)-gcc
 AR		= $(PREFIX)-ar
@@ -54,7 +53,6 @@ $(LIBNAME).a: $(OBJS)
 	$(Q)$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
-	@echo "  CLEAN   $(subst $(dir $(SRCLIBDIR)),,$(shell pwd))"
 	$(Q)rm -f *.o *.d *.a
 
 .PHONY: all clean

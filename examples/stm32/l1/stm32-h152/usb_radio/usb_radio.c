@@ -1045,29 +1045,7 @@ static int si4703_init(void)
 	/* Read all registers. */
 	if ((r = si4703_read(9)) < 0)
 		return r;
-#if 0
-	/* Set De-emphasis. */
-	if ((r = si4703_write(4, 0x0800)) < 0)
-		return r;
 
-	/* Set Band, Spacing and Volume (Full). */
-	if ((r = si4703_write(5, 0x006f)) < 0)
-		return r;
-
-	/* Set initial channel (81.3MHz). */
-	if ((r = si4703_write(3, 0x8000 | 106)) < 0)
-		return r;
-
-	/* Wait for initial tune to complete. */
-	do {
-		if ((r = si4703_read(10)) < 0)
-			return r;
-	} while (!(r & 0x4000));
-
-	/* Clear TUNE bit. */
-	if ((r = si4703_write(3, 106)) < 0)
-		return r;
-#endif
 	return 0;
 }
 

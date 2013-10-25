@@ -26,8 +26,8 @@ LIBDIR		= $(DESTDIR)/$(PREFIX)/lib
 SHAREDIR	= $(DESTDIR)/$(PREFIX)/share
 INSTALL		= install
 
-SRCLIBDIR = $(shell pwd)/lib
-TARGETS = stm32/l1
+LIBS		= lib/stm32/l1/libstm32l1.a
+TARGETS		= stm32/l1
 
 # Be silent per default, but 'make V=1' will show all compiler calls.
 ifneq ($(V),1)
@@ -36,27 +36,13 @@ Q := @
 MAKEFLAGS += --no-print-directory
 endif
 
-all: build
+all: $(LIBS)
 
-build: lib examples
+$(LIBS):
+	@echo "  BUILD   $(@D)";
+	$(Q)$(MAKE) -C $(@D)
 
-LIB_DIRS:=$(wildcard $(addprefix lib/,$(TARGETS)))
-$(LIB_DIRS):
-	@printf "  BUILD   $@\n";
-	$(Q)$(MAKE) --directory=$@ SRCLIBDIR=$(SRCLIBDIR)
-
-lib: $(LIB_DIRS)
-	$(Q)true
-
-EXAMPLE_DIRS:=$(sort $(dir $(wildcard $(addsuffix /*/*/Makefile,$(addprefix examples/,$(TARGETS))))))
-$(EXAMPLE_DIRS): lib
-	@printf "  BUILD   $@\n";
-	$(Q)$(MAKE) --directory=$@
-
-examples: $(EXAMPLE_DIRS)
-	$(Q)true
-
-install: lib
+install: $(LIBS)
 	@printf "  INSTALL headers\n"
 	$(Q)$(INSTALL) -d $(INCDIR)/stm32
 	$(Q)cp -r include/stm32/* $(INCDIR)/stm32
@@ -74,12 +60,27 @@ install: lib
 
 # Bleh http://www.makelinux.net/make3/make3-CHP-6-SECT-1#make3-CHP-6-SECT-1
 clean:
-	$(Q)for i in $(LIB_DIRS) \
-		     $(EXAMPLE_DIRS); do \
+	$(Q)for i in $(dir $(LIBS)); do \
 		if [ -d $$i ]; then \
-			printf "  CLEAN   $$i\n"; \
-			$(MAKE) -C $$i clean SRCLIBDIR=$(SRCLIBDIR) || exit $?; \
+			echo "  CLEAN   $$i"; \
+			$(MAKE) -C $$i clean || exit $?; \
 		fi; \
 	done
 
-.PHONY: build lib $(LIB_DIRS) examples $(EXAMPLE_DIRS) install clean
+EXAMPLE_DIRS:=$(sort $(dir $(wildcard $(addsuffix /*/*/Makefile,$(addprefix examples/,$(TARGETS))))))
+$(EXAMPLE_DIRS):
+	@echo "  BUILD   $@";
+	$(Q)$(MAKE) -C $@
+
+examples: $(EXAMPLE_DIRS)
+	$(Q)true
+
+clean_examples:
+	$(Q)for i in $(EXAMPLE_DIRS); do \
+		if [ -d $$i ]; then \
+			echo "  CLEAN   $$i"; \
+			$(MAKE) -C $$i clean || exit $?; \
+		fi; \
+	done
+
+.PHONY: examples $(EXAMPLE_DIRS) install clean clean_examples

@@ -1,0 +1,38 @@
+------------------------------------------------------------------------------
+README
+------------------------------------------------------------------------------
+
+This is an example for DFU.
+
+You must first write DFU bootloader (usb_dfu) to the Flash memory
+and then download usb_custom_irq_dfu.
+
+Usb_custom_irq_dfu has a DFU interface.
+
+ # dfu-util -l
+ ...
+
+ Found Runtime: [2975:0001] devnum=0, cfg=1, intf=1, alt=0, name="UNDEFINED"
+ #
+
+If you have no other DFU device, you can download directly some application.
+
+ # dfu-util -R -D xxx.bin
+ ...
+
+If you have multiple DFU devices attached to your computer, you must use
+detach command.
+
+ # dfu-util -d 2975:0001 -e
+ ...
+ #
+
+When the device is detached, software reset is executed and DFU bootloader
+(usb_dfu) runs.
+
+ # dfu-util -l
+ ...
+
+ Found DFU: [2975:0002] devnum=0, cfg=1, intf=0, alt=0, name="STM32L1"
+ # dfu-util -d 2975:0002 -R -D xxx.bin
+ ...

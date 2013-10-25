@@ -28,7 +28,7 @@
 #define MAX_DATA_OUT		64
 
 /* Maximum IN data length */
-#define MAX_DATA_IN		64
+#define MAX_DATA_IN		128
 
 /* Maximun interface number */
 #define MAXINTERFACE		3

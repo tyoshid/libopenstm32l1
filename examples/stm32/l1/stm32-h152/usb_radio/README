@@ -1,0 +1,36 @@
+------------------------------------------------------------------------------
+README
+------------------------------------------------------------------------------
+
+This is a USB FM radio program.
+
+It is based on Silicon Labs USB FM Radio Reference Design (AN264).
+It has 2 channels (Stereo) with 12-bit resolution sampling at 48kHz.
+
+You must change Linux kernel (and/or kernel modules).
+
+---
+
+diff -uNrp kernel-3.11.fc19.orig/linux-3.11.4-201.fc19.x86_64/drivers/hid/hid-core.c kernel-3.11.fc19.new/linux-3.11.4-201.fc19.x86_64/drivers/hid/hid-core.c
+--- kernel-3.11.fc19.orig/linux-3.11.4-201.fc19.x86_64/drivers/hid/hid-core.c	2013-10-21 11:14:12.723541345 +0900
++++ kernel-3.11.fc19.new/linux-3.11.4-201.fc19.x86_64/drivers/hid/hid-core.c	2013-10-23 09:30:42.527663932 +0900
+@@ -2199,6 +2199,7 @@ static const struct hid_device_id hid_ig
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_WISEGROUP, USB_DEVICE_ID_1_PHIDGETSERVO_20) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_WISEGROUP, USB_DEVICE_ID_8_8_4_IF_KIT) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_YEALINK, USB_DEVICE_ID_YEALINK_P1K_P4K_B2K) },
++	{ HID_USB_DEVICE(0x2975, 0x0005) },
+ 	{ }
+ };
+ 
+diff -uNrp kernel-3.11.fc19.orig/linux-3.11.4-201.fc19.x86_64/drivers/media/radio/si470x/radio-si470x-usb.c kernel-3.11.fc19.new/linux-3.11.4-201.fc19.x86_64/drivers/media/radio/si470x/radio-si470x-usb.c
+--- kernel-3.11.fc19.orig/linux-3.11.4-201.fc19.x86_64/drivers/media/radio/si470x/radio-si470x-usb.c	2013-10-21 11:14:11.541541292 +0900
++++ kernel-3.11.fc19.new/linux-3.11.4-201.fc19.x86_64/drivers/media/radio/si470x/radio-si470x-usb.c	2013-10-21 14:23:21.339047720 +0900
+@@ -53,6 +53,8 @@ static struct usb_device_id si470x_usb_d
+ 	{ USB_DEVICE_AND_INTERFACE_INFO(0x10c5, 0x819a, USB_CLASS_HID, 0, 0) },
+ 	/* Axentia ALERT FM USB Receiver */
+ 	{ USB_DEVICE_AND_INTERFACE_INFO(0x12cf, 0x7111, USB_CLASS_HID, 0, 0) },
++	/* MPC Research Ltd. USB FM Radio */
++	{ USB_DEVICE_AND_INTERFACE_INFO(0x2975, 0x0005, USB_CLASS_HID, 0, 0) },
+ 	/* Terminating entry */
+ 	{ }
+ };

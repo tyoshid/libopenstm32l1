@@ -1,0 +1,32 @@
+------------------------------------------------------------------------------
+README
+------------------------------------------------------------------------------
+
+This is the DFU bootloader program (USB DFU Specification 1.1).
+
+You can use 'dfu-util' for downloding (or uploading) application program.
+If you have no other DFU device, download command is as follows.
+
+ # dfu-util -R -D usb_custom_irq_dfu.bin
+
+If you have multiple DFU devices attached to your computer, you must
+specify vendor and/or product ID.
+
+ # dfu-util -d 2975:0002 -R -D usb_custom_irq_dfu.bin
+
+The application program that is downloaded will run after hardware reset.
+If software reset is executed or the button (WAKEUP) is pushed simultaneously
+with hardware reset, DFU bootloader runs again.
+
+In order to use DFU, you must make the binary code for DFU bootloader.
+The Makefile of usb_custom_irq_dfu is intended to generate the binary code
+for DFU bootloader.
+
+ $ cd examples/stm32/l1/stm32-h152/miniblink
+ $ make LDSCRIPT="../stm32-h152_dfu.ld"
+    text    data     bss     dec     hex filename
+    1132       0       0    1132     46c miniblink.elf
+ $ su
+ Password:
+ # dfu-util -R -D miniblink.bin
+ ...

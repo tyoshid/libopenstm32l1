@@ -1,0 +1,18 @@
+------------------------------------------------------------------------------
+README
+------------------------------------------------------------------------------
+
+The host command 'usbgpio' read/write GPIO PORT E using USB custom request.
+The red LED (STAT1) is connected to bit10 (PE10),
+and the green LED (STAT2) is connected to bit11 (PE11).
+If you set the bit '1', the LED is turned off.
+
+ # ./usbgpio 0400
+ Port <- 0x0400
+ # 
+The red LED is off and the green LED is on.
+
+ # ./usbgpio 0800
+ Port <- 0x0800
+ # 
+The red LED is on and the green LED is off.

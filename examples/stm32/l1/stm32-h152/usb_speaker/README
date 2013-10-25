@@ -1,0 +1,7 @@
+------------------------------------------------------------------------------
+README
+------------------------------------------------------------------------------
+
+This is a USB sound card program.
+
+It has 2 channels (Stereo) with 12-bit resolution sampling at 48kHz.

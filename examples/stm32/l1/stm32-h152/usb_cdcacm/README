@@ -1,0 +1,9 @@
+------------------------------------------------------------------------------
+README
+------------------------------------------------------------------------------
+
+This is a USB to serial converter program.
+
+It works like a modem. It enter 'AT' command mode after reset.
+You can enable hardware flow control using '+IFC' command.
+'O' command make it enter online data mode.
