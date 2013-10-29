@@ -185,7 +185,7 @@ void control_setup(void)
 		usbdevfs_set_control_state(0, control_state);
 		return;
 	}
-	
+
 	/* Device Request */
 	if (device_request(&curreq, CONTROL_STAGE_SETUP) < 0) {
 		/* Request Error */

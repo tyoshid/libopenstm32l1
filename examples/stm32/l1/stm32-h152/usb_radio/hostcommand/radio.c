@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
 	}
 
 	if (argc - optind >= 1) {
-		if (sscanf(argv[optind], "%lf", &f) != 1) 
+		if (sscanf(argv[optind], "%lf", &f) != 1)
 			usage(argv[0]);
 		f *= 1000000.;
 	}

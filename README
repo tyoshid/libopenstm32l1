@@ -2,8 +2,8 @@
 README
 ------------------------------------------------------------------------------
 
-The libopenstm32l1 project derives from the libopenstm32 which is the ancestor
-of the libopencm3.
+The libopenstm32l1 project derives from the libopenstm32 project which is
+the ancestor of the libopencm3 project.
 
 ------------------------------------------------------------------------------
 

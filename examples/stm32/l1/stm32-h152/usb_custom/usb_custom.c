@@ -219,10 +219,10 @@ static int usb_device_request(struct usb_setup_data *req, int setup)
 			/* GET request */
 			if (req->bmRequestType & USB_DIR_IN)
 				return standard_request(req);
-		}
-		else if (!(req->bmRequestType & USB_DIR_IN))
+		} else if (!(req->bmRequestType & USB_DIR_IN)) {
 			/* SET request */
 			return standard_request(req);
+		}
 	} else if ((req->bmRequestType & USB_TYPE_MASK) == USB_TYPE_VENDOR &&
 		   standard_state == USB_STATE_CONFIGURED) {
 		/* Vendor(Custom) Device Request */
@@ -230,10 +230,10 @@ static int usb_device_request(struct usb_setup_data *req, int setup)
 			/* GET request */
 			if (req->bmRequestType & USB_DIR_IN)
 				return vendor_request(req);
-		}
-		else if (!(req->bmRequestType & USB_DIR_IN))
+		} else if (!(req->bmRequestType & USB_DIR_IN)) {
 			/* SET request */
 			return vendor_request(req);
+		}
 	} else {
 		return -1;
 	}

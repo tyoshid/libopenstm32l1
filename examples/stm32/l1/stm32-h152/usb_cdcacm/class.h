@@ -19,6 +19,6 @@
 
 bool class_request_error(struct usb_setup_data *req);
 bool class_request_check_data(struct usb_setup_data *req, u8 *buf);
-int class_request(struct usb_setup_data *req, u8 *buf, u8 ** data);
+int class_request(struct usb_setup_data *req, u8 *buf, u8 **data);
 int class_notify(u8 *buf);
 void class_reset(void);

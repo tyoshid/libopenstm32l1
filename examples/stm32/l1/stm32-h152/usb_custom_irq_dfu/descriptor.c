@@ -159,7 +159,7 @@ static int make_string_descriptor(int index, int langid, u16 *buf)
 	*s = USB_DT_STRING;
 
 	/* Return descriptor size. */
-	return (i * (int)sizeof(u16));
+	return i * (int)sizeof(u16);
 }
 
 int get_descriptor(int type, int index, int langid, u8 *buf, u8 **data)

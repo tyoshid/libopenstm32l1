@@ -10,7 +10,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
@@ -49,18 +49,18 @@ int main(void)
 		/* Manually: */
 		// GPIOE_BSRR = GPIO10;		/* LED off */
 		// for (i = 0; i < 800000; i++)	/* Wait a bit. */
-		// 	__asm__ ("nop");
+		//	__asm__ ("nop");
 		// GPIOE_BSRR = (GPIO10 << 16);	/* LED on */
 		// for (i = 0; i < 800000; i++)	/* Wait a bit. */
-		// 	__asm__ ("nop");
+		//	__asm__ ("nop");
 
 		/* Using API functions gpio_set()/gpio_clear(): */
 		// gpio_set(GPIO_PE10);		/* LED off */
 		// for (i = 0; i < 800000; i++)	/* Wait a bit. */
-		// 	__asm__ ("nop");
+		//	__asm__ ("nop");
 		// gpio_clear(GPIO_PE10);	/* LED on */
 		// for (i = 0; i < 800000; i++)	/* Wait a bit. */
-		// 	__asm__ ("nop");
+		//	__asm__ ("nop");
 
 		/* Using API function gpio_toggle(): */
 		gpio_toggle(GPIO_PE10);		/* LED on/off */

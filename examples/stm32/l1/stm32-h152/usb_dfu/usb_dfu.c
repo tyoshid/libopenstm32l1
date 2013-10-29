@@ -190,7 +190,7 @@ void usb_lp_isr(void)
 					       USBDEVFS_DIR | USBDEVFS_EP_ID);
 	/* Spurious */
 	if (!(status & (USBDEVFS_CORRECT_TRANSFER | USBDEVFS_RESET)))
-	    return;
+		return;
 
 	/* Correct transfer */
 	if (mask & status & USBDEVFS_CORRECT_TRANSFER) {
@@ -237,7 +237,7 @@ bool program_addr_error(u32 addr)
 
 int program_time(int n)
 {
-	return (FLASH_T_PROG * n);
+	return FLASH_T_PROG * n;
 }
 
 void program_erase(u32 addr)

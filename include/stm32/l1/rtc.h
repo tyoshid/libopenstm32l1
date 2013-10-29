@@ -569,7 +569,7 @@ enum {
 	RTC_TIMESTAMP = (1 << 11),
 	RTC_TIMESTAMP_OVERFLOW = (1 << 12),
 	RTC_TAMPER1 = (1 << 13),
-	RTC_TAMPER2= (1 << 14),
+	RTC_TAMPER2 = (1 << 14),
 	RTC_TAMPER3 = (1 << 15)
 };
 

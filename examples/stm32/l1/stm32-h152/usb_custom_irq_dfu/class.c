@@ -118,7 +118,7 @@ bool class_request_error(struct usb_setup_data *req)
 		 * | 00100001B     | 00h      | wTimeout | Interface | Zero
 		 *
 		 */
-		
+
 		/* bmRequestType = 00100001B */
 		if (req->bmRequestType != (USB_DIR_OUT | USB_TYPE_CLASS |
 					   USB_RECIP_INTERFACE))

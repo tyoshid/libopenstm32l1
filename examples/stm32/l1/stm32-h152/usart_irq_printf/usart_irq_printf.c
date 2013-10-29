@@ -36,7 +36,7 @@
 #define TIMX_CLK_APB1	32000000
 
 /* Maximum queue size */
-#define QUEUESIZE 	1024
+#define QUEUESIZE	1024
 
 /* Tx, Rx queue */
 volatile u8 queue[QUEUESIZE];

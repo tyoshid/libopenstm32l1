@@ -676,7 +676,7 @@ void usb_lp_isr(void)
 					       USBDEVFS_RESET |
 					       USBDEVFS_DIR | USBDEVFS_EP_ID);
 	if (!(status & (USBDEVFS_CORRECT_TRANSFER | USBDEVFS_RESET)))
-	    return;
+		return;
 
 	/* Correct transfer */
 	if (mask & status & USBDEVFS_CORRECT_TRANSFER) {

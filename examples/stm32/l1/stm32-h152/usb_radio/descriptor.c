@@ -229,7 +229,7 @@ const u8 report[] __attribute__ ((aligned(2))) = {
 	USB_HID_DATA | USB_HID_VARIABLE | USB_HID_ABSOLUTE,
 
 	/* Report 19: LED state */
-  	/* Report ID (19) */
+	/* Report ID (19) */
 	USB_HID_REPORT_ID | USB_HID_SIZE_1,
 	19,
 	/* Report Count (3) */
@@ -240,7 +240,7 @@ const u8 report[] __attribute__ ((aligned(2))) = {
 	USB_HID_DATA | USB_HID_VARIABLE | USB_HID_ABSOLUTE,
 
 	/* Report 20: scratch */
-  	/* Report ID (20) */
+	/* Report ID (20) */
 	USB_HID_REPORT_ID | USB_HID_SIZE_1,
 	20,
 	/* Report Count (63) */
@@ -483,7 +483,7 @@ static int make_string_descriptor(int index, u16 *buf)
 	*s = USB_DT_STRING;
 
 	/* Return descriptor size. */
-	return (i * (int)sizeof(u16));
+	return i * (int)sizeof(u16);
 }
 
 int get_descriptor(int type, int index, u8 *buf, u8 **data)

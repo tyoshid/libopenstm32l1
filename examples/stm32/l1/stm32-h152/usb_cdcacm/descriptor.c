@@ -113,7 +113,7 @@ const struct config_desc config_desc __attribute__ ((aligned(2))) = {
 			.bDescriptorType = USB_DT_CS_INTERFACE,
 			.bDescriptorSubtype = USB_COMM_TYPE_UNION,
 			.bControlInterface = INTERFACE_COMM,
-			.bSubordinateInterface[0] = INTERFACE_DATA, 
+			.bSubordinateInterface[0] = INTERFACE_DATA,
 		},
 	},
 	/* Notification endpoint */
@@ -209,7 +209,7 @@ static int make_string_descriptor(int index, u16 *buf)
 	*s = USB_DT_STRING;
 
 	/* Return descriptor size. */
-	return (i * (int)sizeof(u16));
+	return i * (int)sizeof(u16);
 }
 
 int get_descriptor(int type, int index, u8 *buf, u8 **data)

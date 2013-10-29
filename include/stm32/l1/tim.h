@@ -115,7 +115,7 @@
 #define TIM2_SR				TIM_SR(TIM2_BASE)
 #define TIM3_SR				TIM_SR(TIM3_BASE)
 #define TIM4_SR				TIM_SR(TIM4_BASE)
-#define TIM5_SR	       			TIM_SR(TIM5_BASE)	/* (**) */
+#define TIM5_SR				TIM_SR(TIM5_BASE)	/* (**) */
 #define TIM6_SR				TIM_SR(TIM6_BASE)
 #define TIM7_SR				TIM_SR(TIM7_BASE)
 #define TIM9_SR				TIM_SR(TIM9_BASE)

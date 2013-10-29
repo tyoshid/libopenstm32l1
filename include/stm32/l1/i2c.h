@@ -269,7 +269,7 @@ enum {
 /* Action */
 enum {
 	I2C_RESET = (1 << 14),
- 	I2C_PEC = (1 << 12),
+	I2C_PEC = (1 << 12),
 	I2C_POS = (1 << 11),
 	I2C_ACK = (1 << 10)
 /*

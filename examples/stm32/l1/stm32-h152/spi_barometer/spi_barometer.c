@@ -196,7 +196,7 @@ void dma_spi1_tx_isr(void)
 		dma_disable(DMA_SPI1_TX);
 
 		/* Clear interrupt. */
-		dma_clear_interrupt(DMA_SPI1_TX, DMA_GLOBAL| DMA_COMPLETE);
+		dma_clear_interrupt(DMA_SPI1_TX, DMA_GLOBAL | DMA_COMPLETE);
 	}
 }
 
@@ -261,7 +261,7 @@ static int baro_transfer(const u32 *sndbuf, u32 *rcvbuf, int n)
 	spi_busy = true;
 
 	/* Set RX DMA mode and enable DMA. */
-	dma_setup_channel(DMA_SPI1_RX, (u32)rcvbuf, (u32)&SPI1_DR, n, 
+	dma_setup_channel(DMA_SPI1_RX, (u32)rcvbuf, (u32)&SPI1_DR, n,
 			  DMA_CCR_MSIZE_32BIT |
 			  DMA_CCR_PSIZE_32BIT |
 			  DMA_CCR_MINC |
@@ -269,7 +269,7 @@ static int baro_transfer(const u32 *sndbuf, u32 *rcvbuf, int n)
 			  DMA_CCR_EN);
 
 	/* Set TX DMA mode and enable DMA. */
-	dma_setup_channel(DMA_SPI1_TX, (u32)sndbuf, (u32)&SPI1_DR, n, 
+	dma_setup_channel(DMA_SPI1_TX, (u32)sndbuf, (u32)&SPI1_DR, n,
 			  DMA_CCR_MSIZE_32BIT |
 			  DMA_CCR_PSIZE_32BIT |
 			  DMA_CCR_MINC |
@@ -355,7 +355,7 @@ static void print_pressure(s32 pressure)
 	i = pressure >> 4;
 	printf("%d.%d kPa\r\n", i, frac[f]);
 }
-	
+
 int main(void)
 {
 	u32 buf[32];
@@ -368,14 +368,14 @@ int main(void)
 	s16 pcomp;
 	s32 pressure;
 	static const u32 coeff[] = {
-		READ_A0_MSB, 0, 
-		READ_A0_LSB, 0, 
-		READ_B1_MSB, 0, 
-		READ_B1_LSB, 0, 
-		READ_B2_MSB, 0, 
-		READ_B2_LSB, 0, 
-		READ_C12_MSB, 0, 
-		READ_C12_LSB, 0, 
+		READ_A0_MSB, 0,
+		READ_A0_LSB, 0,
+		READ_B1_MSB, 0,
+		READ_B1_LSB, 0,
+		READ_B2_MSB, 0,
+		READ_B2_LSB, 0,
+		READ_C12_MSB, 0,
+		READ_C12_LSB, 0,
 		0
 	};
 	static const u32 conv[] = {

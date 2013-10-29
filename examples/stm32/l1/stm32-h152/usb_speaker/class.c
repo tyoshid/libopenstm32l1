@@ -134,7 +134,7 @@ int class_request(struct usb_setup_data *req, u8 *buf, u8 **data)
 				volume_set(volume[1], volume[2]);
 			break;
 		default:
-			return (-1);
+			return -1;
 		}
 		break;
 	case (USB_DIR_IN | USB_TYPE_CLASS | USB_RECIP_INTERFACE):
@@ -160,17 +160,17 @@ int class_request(struct usb_setup_data *req, u8 *buf, u8 **data)
 				*p = RES_VOLUME;
 				break;
 			default:
-				return (-1);
+				return -1;
 			}
 			*data = buf;
 			len = 2;
 			break;
 		default:
-			return (-1);
+			return -1;
 		}
 		break;
 	default:
-		return (-1);
+		return -1;
 	}
 	return len;
 }

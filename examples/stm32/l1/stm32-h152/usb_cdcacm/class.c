@@ -182,7 +182,7 @@ bool class_request_check_data(struct usb_setup_data *req, u8 *buf)
 	return false;
 }
 
-int class_request(struct usb_setup_data *req, u8 *buf, u8 ** data)
+int class_request(struct usb_setup_data *req, u8 *buf, u8 **data)
 {
 	int i;
 	char *r;

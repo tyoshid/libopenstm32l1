@@ -45,7 +45,7 @@ bool class_request_error(struct usb_setup_data *req)
 		 * | 00100001B     | 00h      | wTimeout | Interface | Zero
 		 *
 		 */
-		
+
 		/* Not supported here. */
 		r = true;
 		break;

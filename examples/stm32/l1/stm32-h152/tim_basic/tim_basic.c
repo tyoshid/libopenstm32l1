@@ -26,7 +26,7 @@
 
 #define TIMX_CLK_APB1 32000000
 #define TIMX_CLK_APB2 32000000
-	
+
 static int isr_count;
 
 static void clock_setup(void)
@@ -71,7 +71,7 @@ static void gpio_setup(void)
 
 /*
  * Time-base unit
- * 
+ *
  * 1) Load prescaler value.
  * 2) Set auto-reload value.
  * 3) Enable counter.

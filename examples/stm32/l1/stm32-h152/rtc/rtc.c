@@ -84,12 +84,12 @@ static void exti_setup(void)
 
 static void rtc_setup(void)
 {
-	/* 
+	/*
 	 * Enable write access to RTC, RTC backup register and RCC CSR
 	 * (LSEON, LSEBYP, RTCSEL and RTCEN)
 	 */
 	pwr_disable_backup_write_protection();
-	
+
 	/* Enable LSE. */
 	rcc_enable_osc(RCC_LSE);
 

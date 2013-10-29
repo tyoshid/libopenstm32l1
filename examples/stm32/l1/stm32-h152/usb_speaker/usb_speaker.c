@@ -44,7 +44,7 @@ extern int outlen;
 				 USBDEVFS_BUFFER_TABLE_SIZE)
 
 /* Maximum queue size */
-#define QUEUESIZE 		4
+#define QUEUESIZE		4
 
 /* Rx queue */
 static u32 queue[QUEUESIZE][AS_SIZE / sizeof(u32)];
@@ -307,7 +307,7 @@ void usb_hp_isr(void)
 	status = usbdevfs_get_interrupt_status(USBDEVFS_CORRECT_TRANSFER |
 					       USBDEVFS_EP_ID);
 	if (!(status & USBDEVFS_CORRECT_TRANSFER))
-	    return;
+		return;
 
 	/* Correct transfer */
 	ep_id = status & USBDEVFS_EP_ID;
@@ -322,7 +322,7 @@ void usb_hp_isr(void)
 		n = usbdevfs_read0(ep_id, (u16 *)queue[tail], AS_SIZE);
 	else
 		n = usbdevfs_read1(ep_id, (u16 *)queue[tail], AS_SIZE);
-		
+
 	/* too short packet (data error ?) */
 	if (n < AS_SIZE)
 		short_packet++;
@@ -445,7 +445,7 @@ void usb_lp_isr(void)
 					       USBDEVFS_DIR | USBDEVFS_EP_ID);
 	if (!(status & (USBDEVFS_CORRECT_TRANSFER | USBDEVFS_ERROR |
 			USBDEVFS_RESET | USBDEVFS_SOF)))
-	    return;
+		return;
 
 	/* Start of frame */
 	if (mask & status & USBDEVFS_SOF) {

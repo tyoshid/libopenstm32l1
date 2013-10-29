@@ -40,7 +40,7 @@ static volatile u32 addr_pointer = APP_ADDRESS;
  *
  */
 #if 0
-static bool dfu_dnload_error(struct usb_setup_data *req)
+static bool dfu_detach_error(struct usb_setup_data *req)
 {
 	/* bmRequestType = 00100001B */
 	if (req->bmRequestType != (USB_DIR_OUT | USB_TYPE_CLASS |
@@ -58,7 +58,7 @@ static bool dfu_dnload_error(struct usb_setup_data *req)
 	return false;
 }
 #endif
-		
+
 /*
  * DFU_DNLOAD
  *

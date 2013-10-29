@@ -557,7 +557,7 @@ void usb_hp_isr(void)
 	status = usbdevfs_get_interrupt_status(USBDEVFS_CORRECT_TRANSFER |
 					       USBDEVFS_EP_ID);
 	if (!(status & USBDEVFS_CORRECT_TRANSFER))
-	    return;
+		return;
 
 	/* Correct transfer */
 	ep_id = status & USBDEVFS_EP_ID;
@@ -706,7 +706,7 @@ void usb_lp_isr(void)
 					       USBDEVFS_DIR | USBDEVFS_EP_ID);
 	if (!(status & (USBDEVFS_CORRECT_TRANSFER | USBDEVFS_ERROR |
 			USBDEVFS_RESET | USBDEVFS_SOF)))
-	    return;
+		return;
 
 	/* Start of frame */
 	if (mask & status & USBDEVFS_SOF) {
@@ -987,7 +987,7 @@ static int si4703_write(int reg_num, u16 data)
 
 	return si4703_transfer();
 }
-	
+
 static int si4703_read(int reg_num)
 {
 	int i;
@@ -1015,7 +1015,7 @@ static int si4703_read(int reg_num)
 
 	return si4703_reg[reg_num];
 }
-	
+
 static int si4703_init(void)
 {
 	int r;

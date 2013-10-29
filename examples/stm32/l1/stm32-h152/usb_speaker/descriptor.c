@@ -251,7 +251,7 @@ static int make_string_descriptor(int index, u16 *buf)
 	*s = USB_DT_STRING;
 
 	/* Return descriptor size. */
-	return (i * (int)sizeof(u16));
+	return i * (int)sizeof(u16);
 }
 
 int get_descriptor(int type, int index, u8 *buf, u8 **data)
@@ -259,7 +259,7 @@ int get_descriptor(int type, int index, u8 *buf, u8 **data)
 	int len;
 
 	switch (type) {
-	case USB_DT_DEVICE: 
+	case USB_DT_DEVICE:
 		len = sizeof(dev_desc);
 		*data = (u8 *)&dev_desc;
 		break;

@@ -278,7 +278,7 @@ static void rx_data(void)
 				escape_len--;
 			}
 		}
-		
+
 		/* Enqueue the character */
 		if (r >= 0) {
 			/* Full */

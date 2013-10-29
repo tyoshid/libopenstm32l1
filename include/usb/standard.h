@@ -132,7 +132,7 @@ struct usb_device_descriptor {
 } __attribute__ ((packed));
 
 /* Class Definition */
-#define USB_CLASS_VENDOR            		0xFF
+#define USB_CLASS_VENDOR			0xFF
 
 /* bMaxPacketSize0: only 8, 16, 32 or 64 are valid */
 #define USB_MAX_MAXPACKETSIZE0			64

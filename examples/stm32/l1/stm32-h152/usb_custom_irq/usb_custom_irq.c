@@ -55,7 +55,7 @@
 #define CONFIGURATION_VALUE	1
 
 /* Maximum packet size for endpoint zero */
-#define MAXPACKETSIZE0 		64
+#define MAXPACKETSIZE0		64
 
 /* USB Device States */
 usb_standard_state_t standard_state = USB_STATE_POWERED;
@@ -249,7 +249,7 @@ static bool standard_request_error(struct usb_setup_data *req)
 
 		/* Descriptor type is device, configuration or string. */
 		if (dt != USB_DT_DEVICE && dt != USB_DT_CONFIGURATION &&
-		    dt != USB_DT_STRING) 
+		    dt != USB_DT_STRING)
 			return true;
 
 		/* Device descriptor */
@@ -548,7 +548,7 @@ static int make_string_descriptor(int index, u16 *buf, int buflen)
 	*s = USB_DT_STRING;
 
 	/* Return descriptor size. */
-	return (i * (int)sizeof(u16));
+	return i * (int)sizeof(u16);
 }
 
 static int standard_request(struct usb_setup_data *req)
@@ -593,7 +593,7 @@ static int standard_request(struct usb_setup_data *req)
 		break;
 	case USB_REQ_GET_CONFIGURATION:
 		/* Get Configuration */
-		
+
 		/* Return configuration value */
 		if (standard_state == USB_STATE_ADDRESS)
 			buf[0] = 0;
@@ -605,7 +605,7 @@ static int standard_request(struct usb_setup_data *req)
 		break;
 	case USB_REQ_GET_INTERFACE:
 		/* Get Interface */
-		
+
 		/* Return alternate setting */
 		buf[0] = 0;
 		/* Write descriptor to packet memory. */
@@ -613,7 +613,7 @@ static int standard_request(struct usb_setup_data *req)
 		break;
 	case USB_REQ_GET_STATUS:
 		/* Get Status */
-		
+
 		switch (req->bmRequestType & USB_RECIP_MASK) {
 		case USB_RECIP_DEVICE:
 			/* Write descriptor to packet memory. */
@@ -666,8 +666,7 @@ static int standard_request(struct usb_setup_data *req)
 			 */
 			if (req->wValue)
 				standard_state = USB_STATE_CONFIGURED;
-		}
-		else if (standard_state == USB_STATE_CONFIGURED) {
+		} else if (standard_state == USB_STATE_CONFIGURED) {
 			/*
 			 * If the specified configuration value is zero,
 			 * then the device enters the Address state.
@@ -689,7 +688,7 @@ static int standard_request(struct usb_setup_data *req)
 		break;
 	case USB_REQ_SET_FEATURE:
 		/* Set Feature */
-		
+
 		switch (req->bmRequestType & USB_RECIP_MASK) {
 		case USB_RECIP_DEVICE:
 			device_status |= USB_DEV_STATUS_REMOTE_WAKEUP;
@@ -703,7 +702,7 @@ static int standard_request(struct usb_setup_data *req)
 		break;
 	case USB_REQ_CLEAR_FEATURE:
 		/* Clear Feature */
-		
+
 		switch (req->bmRequestType & USB_RECIP_MASK) {
 		case USB_RECIP_DEVICE:
 			device_status &= ~USB_DEV_STATUS_REMOTE_WAKEUP;
